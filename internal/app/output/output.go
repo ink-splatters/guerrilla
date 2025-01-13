@@ -7,7 +7,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/liamg/guerrilla/pkg/guerrilla"
+	"github.com/ink-splatters/guerrilla/pkg/guerrilla"
 	"github.com/liamg/tml"
 	"github.com/mattn/go-runewidth"
 	"golang.org/x/term"

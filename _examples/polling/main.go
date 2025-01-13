@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/liamg/guerrilla/pkg/guerrilla"
+	"github.com/ink-splatters/guerrilla/pkg/guerrilla"
 )
 
 func main() {

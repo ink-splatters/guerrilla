@@ -1,4 +1,4 @@
-module github.com/liamg/guerrilla
+module github.com/ink-splatters/guerrilla
 
 go 1.18
 

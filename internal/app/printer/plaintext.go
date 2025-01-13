@@ -5,7 +5,7 @@ import (
 	"io"
 	"time"
 
-	"github.com/liamg/guerrilla/pkg/guerrilla"
+	"github.com/ink-splatters/guerrilla/pkg/guerrilla"
 )
 
 type plaintextPrinter struct {

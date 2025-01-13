@@ -5,8 +5,8 @@ import (
 	"os"
 	"time"
 
-	"github.com/liamg/guerrilla/internal/app/printer"
-	"github.com/liamg/guerrilla/pkg/guerrilla"
+	"github.com/ink-splatters/guerrilla/internal/app/printer"
+	"github.com/ink-splatters/guerrilla/pkg/guerrilla"
 	"github.com/spf13/cobra"
 )
 

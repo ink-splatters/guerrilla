@@ -1,6 +1,6 @@
 package printer
 
-import "github.com/liamg/guerrilla/pkg/guerrilla"
+import "github.com/ink-splatters/guerrilla/pkg/guerrilla"
 
 type Printer interface {
 	PrintEmail(email guerrilla.Email)
