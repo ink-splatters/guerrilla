@@ -4,9 +4,8 @@ import (
 	"os"
 	"time"
 
-	"github.com/liamg/guerrilla/pkg/guerrilla"
-
 	"github.com/liamg/guerrilla/internal/app/output"
+	"github.com/liamg/guerrilla/pkg/guerrilla"
 )
 
 func main() {
