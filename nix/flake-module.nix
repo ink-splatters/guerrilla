@@ -14,7 +14,7 @@
       version = "20250713";
 
       inherit (config) src;
-      vendorHash = "sha256-oiWWLKY2SbUqArxuDB5W2Tl2jn2Wy5XwKm9TWH7ho60=";
+      vendorHash = "sha256-eJMDeZ1Nfe/PivElrpq2yHWdS52K26uDmsGKwf8z8ys=";
       ldflags = ["-s" "-w"];
     };
   };
