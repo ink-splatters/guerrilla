@@ -50,7 +50,10 @@
         };
         config = {
           packages.default = config.packages.guerrilla;
-          src = ./.;
+          src = builtins.path {
+            name = "guerrilla";
+            path = ./.;
+          };
         };
       };
 
