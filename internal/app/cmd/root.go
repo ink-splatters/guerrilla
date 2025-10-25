@@ -10,6 +10,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var version = "dev"
+
 var rootCmd = &cobra.Command{
 	Use:   "guerrilla",
 	Short: "Guerrilla is a command line tool for creating a temporary email address and receiving associated email in the terminal. Powered by the Guerrilla Mail API.",
@@ -62,6 +64,11 @@ var (
 	plaintext        bool
 	showWelcomeEmail bool
 )
+
+func SetVersion(v string) {
+	version = v
+	rootCmd.Version = v
+}
 
 func Execute() {
 
