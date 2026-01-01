@@ -23,24 +23,3 @@ $ guerrilla
 ```
 
 ...and start receiving emails!
-
-## Usage: Go Module
-
-```go
-package main
-
-import (
-    "fmt"
-    "github.com/liamg/guerrilla/pkg/guerrilla"
-)
-
-func main() {
-    
-    client, _ := guerrilla.Init()
-    poller := guerrilla.NewPoller(client)
-
-    for email := range poller.Poll() {
-        fmt.Printf("Email received: Subject=%s\nBody=%s\n\n", email.Subject, email.Body)
-    }
-}
-```
