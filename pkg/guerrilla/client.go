@@ -10,7 +10,6 @@ import (
 )
 
 type Client interface {
-	GetAllEmails() ([]EmailSummary, error)
 	GetNewEmails() ([]EmailSummary, error)
 	GetEmail(id string) (*Email, error)
 	GetAddress() string
@@ -128,33 +127,6 @@ type getEmailListResponse struct {
 		Total            string `json:"total"`
 		TotalPerHour     string `json:"total_per_hour"`
 	} `json:"stats"`
-}
-
-func (c *client) GetAllEmails() ([]EmailSummary, error) {
-	var offset int
-	var emails []EmailSummary
-	for {
-		var resp getEmailListResponse
-		if err := c.sendRequest("get_email_list", map[string]string{
-			"offset": strconv.Itoa(offset),
-		}, &resp); err != nil {
-			return nil, err
-		}
-		count, err := strconv.Atoi(resp.Count)
-		if err != nil {
-			return nil, err
-		}
-		for _, email := range resp.List {
-			emails = append(emails, email.Summary())
-		}
-		if len(emails) >= count || len(resp.List) == 0 {
-			break
-		}
-	}
-	if len(emails) > 0 {
-		c.session.lastSeq = emails[len(emails)-1].ID
-	}
-	return emails, nil
 }
 
 type checkEmailResponse struct {
