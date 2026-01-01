@@ -37,7 +37,7 @@ var DefaultClient = client{
 		Timeout: time.Second * 10,
 	},
 	endpoint: "https://api.guerrillamail.com/ajax.php",
-	agent:    "https://github.com/ink-splatters/guerrilla",
+	agent:    "https://github.com/liamg/guerrilla",
 	language: "en",
 }
 
