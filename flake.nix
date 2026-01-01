@@ -1,9 +1,5 @@
 {
   inputs = {
-    git-hooks = {
-      url = "github:cachix/git-hooks.nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     flake-parts = {
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs-lib.follows = "nixpkgs";
@@ -12,31 +8,30 @@
     systems.url = "github:nix-systems/default";
   };
 
-  nixConfig = {
-    extra-substituters = [
-      "https://aarch64-darwin.cachix.org"
-      "https://pre-commit-hooks.cachix.org"
-    ];
-    extra-trusted-public-keys = [
-      "aarch64-darwin.cachix.org-1:mEz8A1jcJveehs/ZbZUEjXZ65Aukk9bg2kmb0zL9XDA="
-      "pre-commit-hooks.cachix.org-1:Pkk3Panw5AW24TOv6kz3PvLhlH8puAsJTBbOPmBo7Rc="
-    ];
-  };
-
-  outputs = inputs @ {
-    flake-parts,
-    git-hooks,
-    ...
-  }:
+  outputs = inputs @ {flake-parts, ...}:
     flake-parts.lib.mkFlake {inherit inputs;} (let
-      flakeModules.default = import ./nix/flake-module.nix;
       systems = import inputs.systems;
+      flakeModules.default = import ./nix/flake-module.nix;
     in {
       imports = [
-        ./nix/flake-module.nix
-        git-hooks.flakeModule
+        flakeModules.default
+        flake-parts.flakeModules.partitions
       ];
+
       inherit systems;
+
+      partitionedAttrs = {
+        apps = "dev";
+        checks = "dev";
+        devShells = "dev";
+        formatter = "dev";
+      };
+      partitions.dev = {
+        extraInputsFlake = ./nix/dev;
+        module = {
+          imports = [./nix/dev];
+        };
+      };
 
       perSystem = {
         config,
@@ -44,19 +39,24 @@
         ...
       }: {
         options = {
+          # used to avoid relative paths with parent references
           src = lib.mkOption {
-            type = lib.types.path;
+            default = builtins.path {
+              path = ./.;
+              name = "guerrilla";
+            };
+          };
+          version = lib.mkOption {
+            default = "20260101";
+          };
+          vendorHash = lib.mkOption {
+            default = "sha256-sR2L/NIl3ABTDpjlWgCwHsZq5yzRcW9LZ+N/b8BJ81A=";
           };
         };
-        config = {
-          packages.default = config.packages.guerrilla;
-          src = builtins.path {
-            name = "guerrilla";
-            path = ./.;
-          };
-        };
+        config.packages.default = config.packages.guerrilla;
       };
 
+      # exports
       flake = {
         inherit flakeModules;
       };

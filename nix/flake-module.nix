@@ -1,21 +1,23 @@
 {
-  imports = [
-    ./formatter.nix
-    ./pre-commit.nix
-    ./shell.nix
-  ];
   perSystem = {
     config,
     pkgs,
     ...
   }: {
-    packages.guerrilla = pkgs.buildGo124Module rec {
+    packages.guerrilla = pkgs.buildGo125Module {
       pname = "guerrilla";
-      version = "202501025";
+      inherit (config) src version vendorHash;
 
-      inherit (config) src;
-      vendorHash = "sha256-eJMDeZ1Nfe/PivElrpq2yHWdS52K26uDmsGKwf8z8ys=";
-      ldflags = ["-s" "-w" "-X main.Version=${version}"];
+      ldflags = [
+        "-s"
+        "-w"
+        "-X github.com/ink-splatters/guerrilla/cmd/guerrilla/main.Version=${config.version}"
+      ];
+
+      subPackages = ["./cmd/guerrilla"];
+
+      enableParallelBuilding = true;
+      env.CGO_ENABLED = 0;
     };
   };
 }

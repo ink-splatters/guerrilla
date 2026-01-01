@@ -8,12 +8,19 @@
       check.enable = true;
 
       settings.hooks = {
-        deadnix.enable = true;
+        # TODO: go linting w. staticcheck (go-tools)
+
+        # markdown linting
+        # TODO: enable and fix the issues
         # markdownlint.enable = true;
+
+        # nix code linting
+        deadnix.enable = true;
         nil.enable = true;
         alejandra.enable = true;
         statix.enable = true;
-        gofmt.enable = true;
+
+        # typos.enable = true;
       };
     };
 
@@ -21,7 +28,7 @@
       type = "app";
       program = toString (pkgs.writeShellScript "install-hooks" ''
         ${config.pre-commit.installationScript}
-        echo Done!
+        echo "Pre-commit hooks installed!"
       '');
       meta.description = "install pre-commit hooks";
     };
