@@ -5,7 +5,7 @@ import (
 	"io"
 	"time"
 
-	"github.com/ink-splatters/guerrilla/pkg/guerrilla"
+	"github.com/ink-splatters/guerrilla/pkg/types"
 )
 
 type plaintextPrinter struct {
@@ -18,7 +18,7 @@ func NewPlaintextPrinter(w io.Writer) Printer {
 	}
 }
 
-func (p *plaintextPrinter) PrintEmail(email guerrilla.Email) {
+func (p *plaintextPrinter) PrintEmail(email types.Email) {
 
 	fmt.Println("Email #" + email.ID)
 

@@ -1,4 +1,4 @@
-package guerrilla
+package client
 
 import (
 	"sync"

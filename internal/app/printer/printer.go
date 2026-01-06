@@ -1,9 +1,9 @@
 package printer
 
-import "github.com/ink-splatters/guerrilla/pkg/guerrilla"
+import "github.com/ink-splatters/guerrilla/pkg/types"
 
 type Printer interface {
-	PrintEmail(email guerrilla.Email)
+	PrintEmail(email types.Email)
 }
 
 type GuerrillaPrinter interface {

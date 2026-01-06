@@ -7,7 +7,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ink-splatters/guerrilla/pkg/guerrilla"
+	"github.com/ink-splatters/guerrilla/pkg/types"
 	"github.com/liamg/tml"
 	"github.com/mattn/go-runewidth"
 	"golang.org/x/term"
@@ -238,7 +238,7 @@ func (p *guerrillaPrinter) PrintSummary(address string) {
 	p.printFooter()
 }
 
-func (p *guerrillaPrinter) PrintEmail(email guerrilla.Email) {
+func (p *guerrillaPrinter) PrintEmail(email types.Email) {
 	p.printHeader("Email #" + email.ID)
 	p.printIn(0, true, "Subject:       <blue>%s", email.Subject)
 	p.printIn(0, true, "From:          <blue>%s", email.From)

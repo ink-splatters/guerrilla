@@ -1,4 +1,4 @@
-package guerrilla
+package client
 
 import (
 	"encoding/json"
@@ -9,15 +9,7 @@ import (
 	"time"
 )
 
-type Client interface {
-	GetNewEmails() ([]EmailSummary, error)
-	GetEmail(id string) (*Email, error)
-	GetAddress() string
-}
-
-var _ Client = (*client)(nil)
-
-type client struct {
+type defaultClient struct {
 	inner    *http.Client
 	endpoint string
 	agent    string
@@ -30,18 +22,15 @@ type session struct {
 	email   string
 	lastSeq string
 }
-
-var DefaultClient = client{
-	inner: &http.Client{
-		Timeout: time.Second * 10,
-	},
-	endpoint: "https://api.guerrillamail.com/ajax.php",
-	agent:    "https://github.com/liamg/guerrilla",
-	language: "en",
-}
-
-func Init(options ...Option) (Client, error) {
-	client := DefaultClient
+func WithOptions(options ...Option) (Client, error) {
+	client := defaultClient{
+		inner: &http.Client{
+			Timeout: time.Second * 10,
+		},
+		endpoint: "https://api.guerrillamail.com/ajax.php",
+		agent:    "https://github.com/liamg/guerrilla",
+		language: "en",
+	}
 	for _, option := range options {
 		option(&client)
 	}
@@ -49,6 +38,9 @@ func Init(options ...Option) (Client, error) {
 		return nil, err
 	}
 	return &client, nil
+}
+func New()(Client, error) {
+	return WithOptions(nil)
 }
 
 const (

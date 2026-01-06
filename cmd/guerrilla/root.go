@@ -1,4 +1,4 @@
-package cmd
+package guerrilla
 
 import (
 	"fmt"
@@ -6,11 +6,11 @@ import (
 	"time"
 
 	"github.com/ink-splatters/guerrilla/internal/app/printer"
-	"github.com/ink-splatters/guerrilla/pkg/guerrilla"
+	"github.com/ink-splatters/guerrilla/pkg/client"
 	"github.com/spf13/cobra"
 )
 
-var version = "dev"
+var Version = "dev"
 
 var rootCmd = &cobra.Command{
 	Use:   "guerrilla",
@@ -24,7 +24,7 @@ var rootCmd = &cobra.Command{
 		cmd.SilenceUsage = true
 		cmd.SilenceErrors = true
 
-		client, err := guerrilla.Init()
+		client, err := client.New()
 		if err != nil {
 			return err
 		}
@@ -44,7 +44,7 @@ var rootCmd = &cobra.Command{
 
 		genericPrinter.PrintSummary(client.GetAddress())
 
-		poller := guerrilla.NewPoller(client, guerrilla.PollOptionWithInterval(time.Second*time.Duration(flagPollIntervalSeconds)))
+		poller := client.NewPoller(client, client.PollOptionWithInterval(time.Second*time.Duration(flagPollIntervalSeconds)))
 		var count int
 		for email := range poller.Poll() {
 			if !showWelcomeEmail && count == 0 && email.Subject == "Welcome to Guerrilla Mail" {
@@ -65,16 +65,13 @@ var (
 	showWelcomeEmail bool
 )
 
-func SetVersion(v string) {
-	version = v
-	rootCmd.Version = v
-}
-
 func Execute() {
 
 	rootCmd.Flags().IntVarP(&flagPollIntervalSeconds, "poll-interval", "i", 30, "Poll interval in seconds. Must be between 1-600. Low values are not recommended due to API rate limits.")
 	rootCmd.Flags().BoolVarP(&showWelcomeEmail, "show-welcome", "w", false, "Show the default GuerrillaMail welcome email in the output (filtered by default).")
 	rootCmd.Flags().BoolVarP(&plaintext, "plaintext", "p", false, "Wether print e-mails in plaintext (useful for copying).")
+
+	rootCmd.Version = Version
 
 	if err := rootCmd.Execute(); err != nil {
 		_, _ = fmt.Fprintln(os.Stderr, err)
